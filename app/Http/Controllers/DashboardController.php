@@ -40,9 +40,10 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        $produk = Produk::paginate(10);
+        $produk = Produk::with('bahanBaku')->paginate(10);
+        $bahanBaku  = BahanBaku::get();
 
-        return view('admin.produk', compact(['user', 'produk']));
+        return view('admin.produk', compact(['user', 'produk', 'bahanBaku' ]));
     }
 
     public function bahanBaku()
@@ -58,10 +59,11 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        $order = Order::with('produk')->paginate(10);
-        $produks = Produk::get();
+        $order = Order::with('produk.bahanBaku')->paginate(10);
+        $produks = Produk::with('bahanBaku')->get();
+        $bahanBaku = BahanBaku::all();
 
-        return view('admin.order', compact(['user', 'order', 'produks']));
+        return view('admin.order', compact(['user', 'order', 'produks', 'bahanBaku']));
     }
 
     public function produksi()

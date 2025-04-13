@@ -28,6 +28,7 @@
                         <th scope="col">Harga</th>
                         <th scope="col">Deskripsi</th>
                         <th scope="col">Kadaluarsa</th>
+                        <th scope="col">Bahan Baku</th>
                         <th scope="col" style=" text-align: center; vertical-align: middle;">Aksi</th>
                     </tr>
                 </thead>
@@ -42,11 +43,17 @@
                             </td>
                             <td>
                                Rp. {{ $data->harga }}
+                            </td>
                             <td>
                                 {{ $data->deskripsi }}
                             </td>
                             <td>
                                 {{ $data->waktu_produk }} Hari
+                            </td>
+                            <td>
+                                {{ $data->bahanBaku->map(function($bahan) {
+                                    return $bahan->nama_bahan . ' (' . $bahan->pivot->jumlah . ')';
+                                })->implode(', ') }}
                             </td>
                             <td class="text-center">
                                 <a class="btn btn-primary" data-bs-toggle="modal"

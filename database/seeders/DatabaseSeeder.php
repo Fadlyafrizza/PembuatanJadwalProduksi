@@ -23,23 +23,23 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory(20)->create();
         \App\Models\Mesin::factory(20)->create();
-        \App\Models\Produk::factory(20)->create();
+        // \App\Models\Produk::factory(20)->create();
 
         \App\Models\BahanBaku::create([
             'nama_bahan' => 'Bahan Baku 1',
-            'stok' => 100,
+            'stok' => 1000,
         ]);
         \App\Models\BahanBaku::create([
             'nama_bahan' => 'Bahan Baku 2',
-            'stok' => 200,
+            'stok' => 2000,
         ]);
         \App\Models\BahanBaku::create([
             'nama_bahan' => 'Bahan Baku 3',
-            'stok' => 300,
+            'stok' => 3000,
         ]);
         \App\Models\BahanBaku::create([
             'nama_bahan' => 'Bahan Baku 4',
-            'stok' => 400,
+            'stok' => 4000,
         ]);
     }
 }

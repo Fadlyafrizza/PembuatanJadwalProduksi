@@ -23,16 +23,8 @@ use App\Http\Controllers\DashboardController;
 Route::get('/login', [AuthController::class, 'index']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('/create-user', [AuthController::class, 'store'])->name('create.user');
-Route::delete('/user/{id}', [AuthController::class, 'destroy'])->name('user.destroy');
-Route::put('/user/{id}', [AuthController::class, 'update'])->name('user.update');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('/create-mesin', [MesinController::class, 'store'])->name('create.mesin');
-Route::put('/mesin/{id}', [MesinController::class, 'update'])->name('mesin.update');
-Route::delete('/mesin/{id}', [MesinController::class, 'destroy'])->name('mesin.destroy');
-Route::post('/create-produk', [ProdukController::class, 'store'])->name('create.produk');
-Route::put('/produk/{id}', [ProdukController::class, 'update'])->name('produk.update');
-Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+
 
 Route::middleware(['auth', ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -43,14 +35,27 @@ Route::middleware(['auth', ])->group(function () {
     Route::get('/dashboard/order', [DashboardController::class, 'order'])->name('dashboard.order');
     Route::get('/dashboard/produksi', [DashboardController::class, 'produksi'])->name('dashboard.produksi');
 
+    Route::middleware('role:admin')->group(function () {
+        Route::post('/create-user', [AuthController::class, 'store'])->name('create.user');
+        Route::delete('/user/{id}', [AuthController::class, 'destroy'])->name('user.destroy');
+        Route::put('/user/{id}', [AuthController::class, 'update'])->name('user.update');
 
-    Route::post('/create-bahan', [BahanBakuController::class, 'store'])->name('create.bahan');
-    Route::put('/bahan/{id}', [BahanBakuController::class, 'update'])->name('bahan.update');
-    Route::delete('/bahan/{id}', [BahanBakuController::class, 'destroy'])->name('bahan.destroy');
+        Route::post('/create-produk', [ProdukController::class, 'store'])->name('create.produk');
+        Route::put('/produk/{id}', [ProdukController::class, 'update'])->name('produk.update');
+        Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 
-    Route::post('/create-order', [OrderController::class, 'store'])->name('create.order');
-    Route::put('/order/{id}', [OrderController::class, 'update'])->name('order.update');
-    Route::delete('/order/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
+        Route::post('/create-bahan', [BahanBakuController::class, 'store'])->name('create.bahan');
+        Route::put('/bahan/{id}', [BahanBakuController::class, 'update'])->name('bahan.update');
+        Route::delete('/bahan/{id}', [BahanBakuController::class, 'destroy'])->name('bahan.destroy');
 
-    Route::put('/jadwalkan/{id}', [JadwalController::class, 'jadwalkan'])->name('jadwal.update');
+        Route::post('/create-order', [OrderController::class, 'store'])->name('create.order');
+        Route::put('/order/{id}', [OrderController::class, 'update'])->name('order.update');
+        Route::delete('/order/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
+    });
+
+    Route::post('/create-mesin', [MesinController::class, 'store'])->name('create.mesin');
+    Route::put('/mesin/{id}', [MesinController::class, 'update'])->name('mesin.update');
+    Route::delete('/mesin/{id}', [MesinController::class, 'destroy'])->name('mesin.destroy');
+
+    Route::put('/jadwalkan/{id}', [JadwalController::class, 'jadwalkan'])->middleware('role:produksi')->name('jadwal.update');
 });
