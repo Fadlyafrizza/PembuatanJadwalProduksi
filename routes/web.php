@@ -33,7 +33,7 @@ Route::middleware(['auth', ])->group(function () {
     Route::get('/dashboard/produk', [DashboardController::class, 'produk'])->name('dashboard.produk');
     Route::get('/dashboard/bahan', [DashboardController::class, 'bahanBaku'])->name('dashboard.bahan');
     Route::get('/dashboard/order', [DashboardController::class, 'order'])->name('dashboard.order');
-    Route::get('/dashboard/produksi', [DashboardController::class, 'produksi'])->name('dashboard.produksi');
+    Route::get('/dashboard/produksi', [DashboardController::class, 'produksi'])->middleware('checkComplete')->name('dashboard.produksi');
 
     Route::middleware('role:admin')->group(function () {
         Route::post('/create-user', [AuthController::class, 'store'])->name('create.user');
